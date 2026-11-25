@@ -32,11 +32,14 @@ input{font:inherit;color:var(--fg);background:#0b1016;border:1px solid var(--lin
 .floor{flex:1;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
 .side{display:flex;flex-direction:column;gap:6px;align-items:center;width:64px}
 .side small{color:var(--mut);font-size:11px}
-.card{width:56px;height:80px;border-radius:8px;background:#1b2330;border:2px solid var(--c);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4px 2px;user-select:none;flex:none}
-.card b{font-size:22px;line-height:1}
-.card i{font-style:normal;font-size:10px;color:var(--mut)}
-.card span{font-size:11px;font-weight:700;color:var(--c)}
-.card.back{--c:#3b4a63;justify-content:center;font-size:16px;color:var(--mut);background:repeating-linear-gradient(45deg,#1b2330,#1b2330 6px,#202b3a 6px,#202b3a 12px)}
+.card{width:58px;height:88px;border-radius:7px;background:linear-gradient(160deg,#f7efd9,#e8dcba);border:1.5px solid #2b2118;color:#2b2118;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:3px 0 0;user-select:none;flex:none;overflow:hidden;box-shadow:0 2px 4px #0006}
+.card .mo{align-self:flex-start;margin-left:5px;font-size:11px;font-weight:800;color:#8a1c1c;line-height:1.2;position:relative;z-index:2}
+.card .art{font-size:30px;line-height:1;position:relative;z-index:1;filter:drop-shadow(0 1px 0 #0003)}
+.card .tp{width:100%;text-align:center;font-size:11px;font-weight:800;padding:3px 0;background:var(--c);color:#fff;text-shadow:0 1px 0 #0006;position:relative;z-index:2}
+.card.kG{border-color:#c9a227;box-shadow:0 0 0 1px #c9a227,0 2px 6px #0008}
+.card.kG .tp{color:#2b2118;text-shadow:none}
+.card .rib{position:absolute;left:-6px;right:-6px;top:38px;height:14px;background:var(--c);opacity:.92;transform:rotate(-8deg);box-shadow:0 1px 2px #0005}
+.card.back{justify-content:center;font-size:16px;font-weight:800;color:#f3e9cf;background:repeating-linear-gradient(45deg,#8a1c1c,#8a1c1c 6px,#741616 6px,#741616 12px)}
 .card.can{cursor:pointer}
 .card.can:hover{transform:translateY(-6px)}
 .card.hit{box-shadow:0 0 0 2px #3ddc9755}
@@ -57,6 +60,7 @@ input{font:inherit;color:var(--fg);background:#0b1016;border:1px solid var(--lin
 <script>
 const { NAMES, TYPE, newGame, viewFor, kname } = Matgo;
 const PFX = 'okay-matgo-';
+const ART = ['', '🌲', '🌸', '🌷', '🌿', '🪻', '🌹', '🍀', '🌕', '🏵️', '🍁', '🍂', '☔'];
 let S = null, V = null, peer = null, conn = null, lost = false;
 let ui = { mode: 'menu', code: '', err: '' };
 const $ = id => document.getElementById(id);
@@ -115,7 +119,7 @@ function join() {
 }
 
 function card(c, cls, a) {
-  return `<div class="card k${c.k} ${cls || ''}" ${a ? `data-a="${a}" data-id="${c.id}"` : ''}><b>${c.m}</b><i>${NAMES[c.m]}</i><span>${kname(c)}</span></div>`;
+  return `<div class="card k${c.k} ${cls || ''}" title="${NAMES[c.m]}" ${a ? `data-a="${a}" data-id="${c.id}"` : ''}><div class="mo">${c.m}월</div>${'HCFD'.includes(c.k) ? '<div class="rib"></div>' : ''}<div class="art">${ART[c.m]}</div><div class="tp">${kname(c)}</div></div>`;
 }
 
 function caps(cs) {
